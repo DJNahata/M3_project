@@ -21,7 +21,7 @@ NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DEN
 800;128;5;euclidean;False;0,6059;0,5998;0,6183
 800;128;9;euclidean;False;0,6097;;
 800;128;11;euclidean;False;0,6271;;
-800;128;15;euclidean;False;0,6221;;
+800;128;15;euclidean;False;0,6221;0,6245;0,6431
 800;128;21;euclidean;False;0,6208;;
 800;128;27;euclidean;False;0,6121;;
 800;192;5;euclidean;False;0,6059;0,6146;0,6307
@@ -44,10 +44,11 @@ Regarding the number of neighbours, we should chose it to be large enough so tha
 CHANGING DISTANCE;;;;;;;
 ;;;;;;;
 NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DENSE_SIFT;RESULT K-NN;RESULT PCA(64);RESULT LDA(64)
-800;128;15;euclidean;False;0,6221;;
-800;128;15;manhattan;False;0,6047;;
-800;128;15;chebyshev;False;0,5366;;
-800;128;15;minkowsky;False;;;
-800;128;15;wminkowsky;False;;;
-800;128;15;seuclidean;False;;;
-800;128;15;mahalanobis;False;;;
+800;128;15;euclidean;False;0,6221;0,6245;0,6431
+800;128;15;manhattan;False;0,6047;0,5911;0,6406
+800;128;15;chebyshev;False;0,5366;0,5812;0,6419
+800;128;15;hamming;False;0,4151;0,1437;0,1437
+800;128;15;canberra;False;0,57;0,5415;0,6245
+800;128;15;braycurtis;False;0,6406;0,632;0,6654
+;;;;;;;
+We can see that the Bray Curtis distance performs slightly better than the Euclidean distance, for some reason.;;;;;;;
