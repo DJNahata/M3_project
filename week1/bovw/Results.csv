@@ -1,0 +1,41 @@
+CHANGING NUMBER_OF_SIFT_FEATURES;;;;;;;
+;;;;;;;
+NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DENSE_SIFT;RESULT K-NN;RESULT PCA(64);RESULT LDA(64)
+200;128;5;euclidean;False;0,5021;0,5043;0,5465
+400;128;5;euclidean;False;0,5713;0,5911;0,6183
+600;128;5;euclidean;False;0,6047;0,5972;0,6307
+800;128;5;euclidean;False;0,6059;0,5998;0,6183
+1000;128;5;euclidean;False;0,5898;0,6072;0,6183
+1500;128;5;euclidean;False;0,5836;0,6159;0,6232
+2000;128;5;euclidean;False;0,5985;0,6084;0,6133
+5000;128;5;euclidean;False;0,5985;0,6183;0,6146
+999999999;128;5;euclidean;False;0,5985;0,6133;0,6146
+;;;;;;;
+We can see that the performance of the k-nn classifier improves with the number of SIFT features, up to a certain point. The explanation behind this is that too few features do not represent appropriately the different characteristics of each class, provided that the particular characteristics that allow discriminating between classes do not get to be considered. On the other hand,  if we include those characteristics that are not representative of the class, the number of which increases with the amount of feature points, we also do not represent each class appropriately, as certain specific characteristics of particular images in each class will be considered, which leads to a bad representation of the data. Therefore, we must find a tradeoff which, in this case, seems to yield the best results when considering a maximum of 600-800 feature points per image.;;;;;;;
+;;;;;;;
+;;;;;;;
+CHANGING VOCABULARY_SIZE AND NUMBER_OF_NEIGHBOURS;;;;;;;
+;;;;;;;
+NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DENSE_SIFT;RESULT K-NN;RESULT PCA(64);RESULT LDA(64)
+800;64;5;euclidean;False;0,5688;0,5663;0,6183
+800;128;5;euclidean;False;0,6059;0,5998;0,6183
+800;128;9;euclidean;False;0,6097;0,6035;0,6183
+800;128;11;euclidean;False;0,6271;0,5998;0,6183
+800;128;15;euclidean;False;0,6221;0,601;0,6183
+800;128;21;euclidean;False;0,6208;0,5898;0,6183
+800;128;27;euclidean;False;0,6121;0,5935;0,6183
+800;192;5;euclidean;False;0,6059;0,6146;0,6307
+800;192;9;euclidean;False;0,6134;0,6035;0,6307
+800;192;11;euclidean;False;0,6159;0,6109;0,6307
+800;192;15;euclidean;False;0,6183;0,6059;0,6307
+800;192;21;euclidean;False;0,6109;0,6146;0,6307
+800;192;27;euclidean;False;0,601;0,6208;0,6307
+800;256;5;euclidean;False;0,5675;0,5861;0,6369
+800;256;11;euclidean;False;0,5911;0,6146;0,6369
+800;256;15;euclidean;False;0,5849;0,6072;0,6369
+800;256;21;euclidean;False;0,5936;0,5861;0,6369
+800;256;27;euclidean;False;0,5985;0,5898;0,6369
+800;512;5;euclidean;False;0,5155;0,6196;0,6097
+;;;;;;;
+"A vocabulary size too large results in feature vectors with a significantly high number of zeros, which require more memory and computational resources, as well as difficulting the comparison between them, given that similar ""visual words"" might be considered separately. If the vocabulary size is too small, feature vectors from different classes might be too close to one another, given that they might share a significant amount of similar ""visual words"". Therefore, this parameter must allow the feature vector to contain enough information to distinguish between classes and, at the same time, not too much information so that slightly different images from the same class do not appear far away in the feature space. In this case, considering a vocabulary of 128 visual words seems to work well.";;;;;;;
+Regarding the number of neighbours, we should chose it to be large enough so that the noise in the data is minimized, but small enough so that samples from other classes are not included. In this case, considering a number of neighbours around 15(+-4) seems to yield better results.;;;;;;;
