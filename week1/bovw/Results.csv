@@ -52,3 +52,21 @@ NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DEN
 800;128;15;braycurtis;False;0,6406;0,632;0,6654
 ;;;;;;;
 We can see that the Bray Curtis distance performs slightly better than the Euclidean distance, for some reason.;;;;;;;
+;;;;;;;
+;;;;;;;
+CHANGING DENSE;;;;;;;
+;;;;;;;
+NUMBER_OF_SIFT_FEATURES;VOCABULARY_SIZE;NUMBER_OF_NEIGHBOURS;DISTANCE_METRIC;DENSE_SIFT(stride/diameter);RESULT K-NN;RESULT PCA(64);RESULT LDA(64)
+-;128;15;braycurtis;8/4/;0,7782;0,7497;0,8055
+-;128;15;braycurtis;8/8/;0,7893;0,7348;0,8092
+-;128;15;braycurtis;16/8/;0,7757;0,7398;0,8067
+-;128;15;euclidean;16/16;0,7608;0,7646;0,8141
+-;128;15;braycurtis;16/16;0,7844;0,772;0,8104
+-;128;15;braycurtis;32/4;0,6307;0,6208;0,6766
+-;128;15;braycurtis;32/8;0,7472;0,7014;0,7782
+-;128;15;braycurtis;32/16;0,7423;0,746;0,7869
+-;128;15;braycurtis;32/32;0,7103;0,7162;0,7373
+-;128;15;braycurtis;64/8;0,5551;0,5675;0,6406
+-;128;15;braycurtis;64/16;0,6729;0,6828;0,7237
+-;128;15;braycurtis;64/32;0,6679;0,6815;0,7076
+-;128;15;braycurtis;64/64;0,6691;0,6803;0,6828
