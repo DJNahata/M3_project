@@ -67,6 +67,4 @@ for step_size in step_sizes:
             train_score = svm.score(train_data, train_labels)
             test_score = svm.score(test_data, test_labels)
 
-        print("Step size: {}\nDescriptor size percentages: {}\n\
-            Train accuracy score: {}\nTest accuracy score: {}\n\
-            ".format(step_size, descriptor_size_percentages, train_score, test_score))
+        print("Step size: {}\nDescriptor size percentages: {}\nTrain accuracy score: {}\nTest accuracy score: {}\n".format(step_size, descriptor_size_percentages, train_score, test_score))
