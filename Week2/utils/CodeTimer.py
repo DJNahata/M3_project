@@ -10,4 +10,4 @@ class CodeTimer:
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.end = time.time() - self.start
-        print("{}: {}".format(self.name, self.end))
+        print("{}: {} s".format(self.name, self.end))

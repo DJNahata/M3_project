@@ -6,7 +6,7 @@ from sklearn.svm import SVC
 from utils.CodeTimer import CodeTimer
 from utils.DatasetManager import DatasetManager
 from descriptors.SIFT import DenseSIFT
-from descriptors.visual_words import VisualWords
+from descriptors.VisualWords import VisualWords
 
 
 """""""""########################
@@ -29,6 +29,21 @@ dataset_path = r"C:\Users\PC\Documents\Roger\Master\M3\Project\Databases\MIT_spl
 
 DatasetManager = DatasetManager(dataset_path)
 train_img_paths, train_labels, test_img_paths, test_labels = DatasetManager.load_dataset()
+
+# DUMMY SUBSAMPLING FOR FAST TESTING
+from random import shuffle
+dummy_list = list(zip(train_img_paths,train_labels))
+shuffle(dummy_list)
+train_img_paths, train_labels = zip(*dummy_list)
+train_img_paths = train_img_paths[:20]
+train_labels = train_labels[:20]
+
+dummy_list = list(zip(test_img_paths,test_labels))
+shuffle(dummy_list)
+test_img_paths, test_labels = zip(*dummy_list)
+test_img_paths = test_img_paths[:10]
+test_labels = test_labels[:10]
+#
 
 
 """""""""####################################
@@ -56,15 +71,12 @@ for step_size in step_sizes:
             test_data = VisualWords.get_visual_words(test_descriptors)
 
         # Train and test SVM with default parameters
-        train_labels = np.vstack(train_labels)
-        test_labels = np.vstack(test_labels)
-
         with CodeTimer("Train SVM"):
             svm = SVC(C=default_C, kernel=default_kernel, gamma=default_gamma)
             svm.fit(train_data,train_labels)
 
         with CodeTimer("Test SVM"):
-            train_score = svm.score(train_data, train_labels)
-            test_score = svm.score(test_data, test_labels)
+            train_score = svm.score(train_data, np.vstack(train_labels))
+            test_score = svm.score(test_data, np.vstack(test_labels))
 
-        print("Step size: {}\nDescriptor size percentages: {}\nTrain accuracy score: {}\nTest accuracy score: {}\n".format(step_size, descriptor_size_percentages, train_score, test_score))
+        print("Step size: {}\nDescriptor sizes: {}\nTrain accuracy score: {}\nTest accuracy score: {}\n".format(step_size, descriptor_sizes, train_score, test_score))
