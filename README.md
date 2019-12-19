@@ -3,6 +3,7 @@
 # Experiments for week two:
 - [x] Use Dense SIFT with different scales
 - [ ] Normalize Descriptors
+- [ ] Pyramid Scheme
 - [x] Use Cross-Validation using Kfolds or other
 - [ ] Exploit SVM's
 - [x] Create Histogram Intersection Kernel
