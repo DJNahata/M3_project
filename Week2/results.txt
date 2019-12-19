@@ -1,0 +1,453 @@
+Experiment1:
+
+
+		N_clusters: 128
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9399255715045188
+		Test accuracy score: 0.8302354399008675
+
+
+		N_clusters: 128
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9197235513024987
+		Test accuracy score: 0.8327137546468402
+
+
+		N_clusters: 128
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9266347687400319
+		Test accuracy score: 0.8314745972738538
+
+
+		N_clusters: 128
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9409888357256778
+		Test accuracy score: 0.8401486988847584
+
+
+		N_clusters: 128
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9340776182881446
+		Test accuracy score: 0.828996282527881
+
+
+		N_clusters: 128
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.8771929824561403
+		Test accuracy score: 0.7472118959107806
+
+
+		N_clusters: 128
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9133439659755449
+		Test accuracy score: 0.7942998760842627
+
+
+		N_clusters: 128
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.924508240297714
+		Test accuracy score: 0.8252788104089219
+
+
+		N_clusters: 256
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9569377990430622
+		Test accuracy score: 0.8413878562577447
+
+
+		N_clusters: 256
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9463051568314726
+		Test accuracy score: 0.8351920693928129
+
+
+		N_clusters: 256
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9569377990430622
+		Test accuracy score: 0.8302354399008675
+
+
+		N_clusters: 256
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9633173843700159
+		Test accuracy score: 0.8463444857496902
+
+
+		N_clusters: 256
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9526847421584264
+		Test accuracy score: 0.8426270136307311
+
+
+		N_clusters: 256
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.9266347687400319
+		Test accuracy score: 0.7868649318463445
+
+
+		N_clusters: 256
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9447102604997342
+		Test accuracy score: 0.8042131350681536
+
+
+		N_clusters: 256
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9473684210526315
+		Test accuracy score: 0.8228004956629492
+
+
+		N_clusters: 384
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9670388091440723
+		Test accuracy score: 0.838909541511772
+
+
+		N_clusters: 384
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9505582137161085
+		Test accuracy score: 0.8426270136307311
+
+
+		N_clusters: 384
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9696969696969697
+		Test accuracy score: 0.8451053283767038
+
+
+		N_clusters: 384
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9707602339181286
+		Test accuracy score: 0.8587360594795539
+
+
+		N_clusters: 384
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.962254120148857
+		Test accuracy score: 0.8513011152416357
+
+
+		N_clusters: 384
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.950026581605529
+		Test accuracy score: 0.7905824039653035
+
+
+		N_clusters: 384
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9590643274853801
+		Test accuracy score: 0.8203221809169765
+
+
+		N_clusters: 384
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9627857522594365
+		Test accuracy score: 0.8327137546468402
+
+
+		N_clusters: 512
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9728867623604466
+		Test accuracy score: 0.8426270136307311
+
+
+		N_clusters: 512
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9564061669324827
+		Test accuracy score: 0.8265179677819083
+
+
+		N_clusters: 512
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9824561403508771
+		Test accuracy score: 0.8351920693928129
+
+
+		N_clusters: 512
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9776714513556619
+		Test accuracy score: 0.8500619578686494
+
+
+		N_clusters: 512
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9681020733652312
+		Test accuracy score: 0.8562577447335812
+
+
+		N_clusters: 512
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.9564061669324827
+		Test accuracy score: 0.7980173482032218
+
+
+		N_clusters: 512
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9702286018075492
+		Test accuracy score: 0.8116480793060719
+
+
+		N_clusters: 512
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9702286018075492
+		Test accuracy score: 0.8351920693928129
+
+
+		N_clusters: 640
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9797979797979798
+		Test accuracy score: 0.8500619578686494
+
+
+		N_clusters: 640
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9627857522594365
+		Test accuracy score: 0.8463444857496902
+
+
+		N_clusters: 640
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9851143009037746
+		Test accuracy score: 0.8438661710037175
+
+
+		N_clusters: 640
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9776714513556619
+		Test accuracy score: 0.8587360594795539
+
+
+		N_clusters: 640
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9750132908027644
+		Test accuracy score: 0.8451053283767038
+
+
+		N_clusters: 640
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.962254120148857
+		Test accuracy score: 0.7881040892193308
+
+
+		N_clusters: 640
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9771398192450824
+		Test accuracy score: 0.8228004956629492
+
+
+		N_clusters: 640
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9728867623604466
+		Test accuracy score: 0.8401486988847584
+
+
+		N_clusters: 768
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9787347155768208
+		Test accuracy score: 0.8376703841387856
+
+
+		N_clusters: 768
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9665071770334929
+		Test accuracy score: 0.8302354399008675
+
+
+		N_clusters: 768
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.986709197235513
+		Test accuracy score: 0.8488228004956629
+
+
+		N_clusters: 768
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9829877724614566
+		Test accuracy score: 0.8649318463444857
+
+
+		N_clusters: 768
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9792663476874003
+		Test accuracy score: 0.8488228004956629
+
+
+		N_clusters: 768
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.962254120148857
+		Test accuracy score: 0.7942998760842627
+
+
+		N_clusters: 768
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9782030834662414
+		Test accuracy score: 0.8252788104089219
+
+
+		N_clusters: 768
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9808612440191388
+		Test accuracy score: 0.8537794299876085
+
+
+		N_clusters: 896
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9835194045720361
+		Test accuracy score: 0.8339529120198265
+
+
+		N_clusters: 896
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9665071770334929
+		Test accuracy score: 0.838909541511772
+
+
+		N_clusters: 896
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9861775651249336
+		Test accuracy score: 0.8500619578686494
+
+
+		N_clusters: 896
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9829877724614566
+		Test accuracy score: 0.8674101610904585			<-- BEST!!
+
+
+		N_clusters: 896
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9787347155768208
+		Test accuracy score: 0.8550185873605948
+
+
+		N_clusters: 896
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.9643806485911749
+		Test accuracy score: 0.7955390334572491
+
+
+		N_clusters: 896
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9829877724614566
+		Test accuracy score: 0.8327137546468402
+
+
+		N_clusters: 896
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9797979797979798
+		Test accuracy score: 0.8351920693928129
+
+
+		N_clusters: 1024
+		Step size: 8
+		Descriptor sizes: [8]
+		Train accuracy score: 0.9829877724614566
+		Test accuracy score: 0.838909541511772
+
+
+		N_clusters: 1024
+		Step size: 8
+		Descriptor sizes: [4, 8]
+		Train accuracy score: 0.9734183944710261
+		Test accuracy score: 0.8228004956629492
+
+
+		N_clusters: 1024
+		Step size: 16
+		Descriptor sizes: [16]
+		Train accuracy score: 0.9883040935672515
+		Test accuracy score: 0.8525402726146221
+
+
+		N_clusters: 1024
+		Step size: 16
+		Descriptor sizes: [8, 16]
+		Train accuracy score: 0.9845826687931951
+		Test accuracy score: 0.8599752168525403
+
+
+		N_clusters: 1024
+		Step size: 16
+		Descriptor sizes: [4, 8, 12, 16]
+		Train accuracy score: 0.9792663476874003
+		Test accuracy score: 0.862453531598513
+
+
+		N_clusters: 1024
+		Step size: 32
+		Descriptor sizes: [32]
+		Train accuracy score: 0.9776714513556619
+		Test accuracy score: 0.7992565055762082
+
+
+		N_clusters: 1024
+		Step size: 32
+		Descriptor sizes: [16, 32]
+		Train accuracy score: 0.9872408293460925
+		Test accuracy score: 0.8376703841387856
+
+
+		N_clusters: 1024
+		Step size: 32
+		Descriptor sizes: [8, 16, 24, 32]
+		Train accuracy score: 0.9813928761297183
+		Test accuracy score: 0.8413878562577447
+
+
+Experiment 2:
+
