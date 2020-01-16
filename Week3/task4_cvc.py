@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import os
 
+from utils.Kernels import histogram_intersection_kernel
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
@@ -40,12 +41,6 @@ print(test_data.shape)
 
 print(train_labels.shape)
 print(test_labels.shape)
-
-def histogram_intersection_kernel(a, b):
-    K = np.empty(shape=(a.shape[0], b.shape[0]), dtype=np.float32)
-    for i in range(a.shape[0]):
-        K[i] = np.sum(np.minimum(a[i], b), axis=1)
-    return K
 
 K_FOLDS = 5
 PARAM_GRID = {'C': [0.001389], 'kernel': ['rbf', histogram_intersection_kernel], 'gamma': ['scale'], 'tol': [1.34590]}
