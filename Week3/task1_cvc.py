@@ -14,20 +14,7 @@ import numpy as np
 EPOCHS      = 100
 
 model_comps = [
-    {'layers':[{'units':256,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':512,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':1024,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':2048,'activation':'relu'}],'img_size':64,'batch_size':16},
-
-    {'layers':[{'units':512,'activation':'relu'},{'units':256,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':1024,'activation':'relu'},{'units':512,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':4096,'activation':'relu'},{'units':2048,'activation':'relu'}],'img_size':64,'batch_size':16},
-
-    {'layers':[{'units':512,'activation':'relu'},{'units':256,'activation':'relu'},{'units':128,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':1024,'activation':'relu'},{'units':512,'activation':'relu'},{'units':256,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'},{'units':512,'activation':'relu'}],'img_size':64,'batch_size':16},
-    {'layers':[{'units':4096,'activation':'relu'},{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':64,'batch_size':16}
+    {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':64,'batch_size':16}
 ]
 
 DATASET_DIR = '/home/mcv/datasets/MIT_split'
