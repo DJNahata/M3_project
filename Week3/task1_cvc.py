@@ -1,6 +1,7 @@
 import os
 import getpass
 
+from utils import *
 from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Reshape, Dropout
 from keras.preprocessing.image import ImageDataGenerator
