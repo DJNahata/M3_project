@@ -60,7 +60,7 @@ class NormalizedDataGenerator():
         for k,category in enumerate(data_paths):
             for img_path in category:
                 img = load_img(img_path)
-                img.resize((img_size,img_size))
+                img = img.resize((img_size,img_size))
                 data.append(img_to_array(img))
                 labels.append(k)
         self.np_data = np.array(data)
