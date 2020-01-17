@@ -54,7 +54,7 @@ feature_test = visualWords.get_visual_words(test_desc)
 print(feature_train.shape)
 print(len(train_labels))
 K_FOLDS = 5
-PARAM_GRID = {'C': [0.001, 0.01, 0.1, 1, 10, 100], 'kernel': ['linear', 'rbf', histogram_intersection_kernel], 'gamma': [1e-3, 1e-4, 'scale']}
+PARAM_GRID = {'C': [0.001389, 0.01, 0.1, 1, 10], 'kernel': ['rbf', histogram_intersection_kernel], 'gamma': [1e-3, 1e-4, 'scale']}
 
 cv = GridSearchCV(SVC(), param_grid=PARAM_GRID, cv=K_FOLDS, n_jobs=-1, verbose=5)
 cv.fit(feature_train, train_labels)
