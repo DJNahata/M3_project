@@ -36,6 +36,36 @@ class DataGetter():
     def __len__(self):
         return len(self.data)
 
+# -- PATCHER_FACTORY -- #
+class PatcherFactory():
+    """CLASS::PatcherFactory"""
+    def __init__(self, in_directory, out_directory):
+        if not os.path.exists(out_directory):
+            os.makedirs(out_directory)
+        self.in_dir = in_directory
+        self.out_dir = out_directory
+
+    def create_patches(patch_size=64):
+        total = 2688
+        count = 0  
+        for split_dir in os.listdir(in_directory):
+            if not os.path.exists(os.path.join(out_directory,split_dir)):
+                os.makedirs(os.path.join(out_directory,split_dir))
+
+            for class_dir in os.listdir(os.path.join(in_directory,split_dir)):
+                if not os.path.exists(os.path.join(out_directory,split_dir,class_dir)):
+                    os.makedirs(os.path.join(out_directory,split_dir,class_dir))
+
+                for imname in os.listdir(os.path.join(in_directory,split_dir,class_dir)):
+                    count += 1
+                    print('Processed images: '+str(count)+' / '+str(total), end='\r')
+                    im = Image.open(os.path.join(in_directory,split_dir,class_dir,imname))
+                    patches = image.extract_patches_2d(np.array(im), (64, 64), max_patches=1.0)
+                    for i,patch in enumerate(patches):
+                        patch = Image.fromarray(patch)
+                        patch.save(os.path.join(out_directory,split_dir,class_dir,imname.split(',')[0]+'_'+str(i)+'.jpg'))
+                    print('\n')
+
 # -- NORMALIZATION DATA GENERATOR CLASS -- #
 class NormalizedDataGenerator():
     """CLASS::NormalizationDataGenerator:
@@ -60,7 +90,7 @@ class NormalizedDataGenerator():
         for k,category in enumerate(data_paths):
             for img_path in category:
                 img = load_img(img_path)
-                img.resize((img_size,img_size))
+                img = img.resize((img_size,img_size))
                 data.append(img_to_array(img))
                 labels.append(k)
         self.np_data = np.array(data)
