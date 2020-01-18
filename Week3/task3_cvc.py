@@ -1,24 +1,32 @@
 # -- IMPORTS -- #
 from utils.Data import PatcherFactory
 from utils.Model import Model_MLPatches
+import os
 
 # -- CONSTANTS -- #
 EPOCHS = 100
 PATCH_SIZE  = 64
-BATCH_SIZE  = 16
-DATASET_DIR = '/home/mcv/datasets/MIT_split'
-PATCHES_DIR = '/home/grupo07/work/data/MIT_split_patches'
-SAVEPATH = '/home/grupo07/work'
-MODEL_FNAME = '/home/grupo07/work/patch_based_mlp.h5'
+BATCH_SIZE  = 32
+PATCHES_DIR = './Patches_64'
+SAVEPATH = './task3_models'
 
 if __name__ == "__main__":
-    # -- CREATE PATCHES -- #
-    patcher_factory = PatcherFactory(DATASET_DIR,PATCHES_DIR+str(PATCH_SIZE))
-    patcher_factory.create_patches(PATCH_SIZE)
-
+    if not os.path.isdir(SAVEPATH):
+        os.mkdir(SAVEPATH)
     # -- DEFINE MODEL COMBINATIONS -- #
     model_comps = [
-        {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':16}
+        {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':16},
+        {'layers':[{'units':3072,'activation':'relu'},{'units':768,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':16},
+        {'layers':[{'units':2048,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':16},
+        {'layers':[{'units':3072,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':16},
+        {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':32},
+        {'layers':[{'units':3072,'activation':'relu'},{'units':768,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':32},
+        {'layers':[{'units':2048,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':32},
+        {'layers':[{'units':3072,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':32},
+        {'layers':[{'units':2048,'activation':'relu'},{'units':1024,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':64},
+        {'layers':[{'units':3072,'activation':'relu'},{'units':768,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':64},
+        {'layers':[{'units':2048,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':64},
+        {'layers':[{'units':3072,'activation':'relu'}],'img_size':PATCH_SIZE,'batch_size':64},
     ]
     for ind, config_dict in enumerate(model_comps):
         # -- DEFINE CONSTANTS -- #
@@ -66,10 +74,6 @@ if __name__ == "__main__":
             validation_steps=807 // BATCH_SIZE)
 
         model.save_weights(MODEL_FNAME)  # always save your weights after training or during training
-        """
-        Ja ho fet perque es pugui fer load_weights per tant deixe-m'ho així. 
-        Si el model després es crea utilitzant tmb la classe, cap problema.
-        """
 
         # summarize history for accuracy
         plt.plot(history.history['acc'])
@@ -89,3 +93,4 @@ if __name__ == "__main__":
         plt.legend(['train', 'validation'], loc='upper left')
         plt.savefig(SAVEPATH+'/'+MODEL_NAME+'_loss.png')
         plt.close()
+        """

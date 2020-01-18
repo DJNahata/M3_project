@@ -1,6 +1,8 @@
 # -- IMPORTS -- #
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import load_img, img_to_array
+from PIL import Image
+from sklearn.feature_extraction import image as skImage
 from glob import glob
 import numpy as np
 import keras
@@ -45,25 +47,25 @@ class PatcherFactory():
         self.in_dir = in_directory
         self.out_dir = out_directory
 
-    def create_patches(patch_size=64):
+    def create_patches(self,patch_size=64):
         total = 2688
         count = 0  
-        for split_dir in os.listdir(in_directory):
-            if not os.path.exists(os.path.join(out_directory,split_dir)):
-                os.makedirs(os.path.join(out_directory,split_dir))
+        for split_dir in os.listdir(self.in_dir):
+            if not os.path.exists(os.path.join(self.out_dir,split_dir)):
+                os.makedirs(os.path.join(self.out_dir,split_dir))
 
-            for class_dir in os.listdir(os.path.join(in_directory,split_dir)):
-                if not os.path.exists(os.path.join(out_directory,split_dir,class_dir)):
-                    os.makedirs(os.path.join(out_directory,split_dir,class_dir))
+            for class_dir in os.listdir(os.path.join(self.in_dir,split_dir)):
+                if not os.path.exists(os.path.join(self.out_dir,split_dir,class_dir)):
+                    os.makedirs(os.path.join(self.out_dir,split_dir,class_dir))
 
-                for imname in os.listdir(os.path.join(in_directory,split_dir,class_dir)):
+                for imname in os.listdir(os.path.join(self.in_dir,split_dir,class_dir)):
                     count += 1
+                    im = Image.open(os.path.join(self.in_dir,split_dir,class_dir,imname))
+                    patches = skImage.extract_patches_2d(np.array(im), (64, 64), max_patches=4)
                     print('Processed images: '+str(count)+' / '+str(total), end='\r')
-                    im = Image.open(os.path.join(in_directory,split_dir,class_dir,imname))
-                    patches = image.extract_patches_2d(np.array(im), (64, 64), max_patches=1.0)
                     for i,patch in enumerate(patches):
                         patch = Image.fromarray(patch)
-                        patch.save(os.path.join(out_directory,split_dir,class_dir,imname.split(',')[0]+'_'+str(i)+'.jpg'))
+                        patch.save(os.path.join(self.out_dir,split_dir,class_dir,imname.split(',')[0]+'_'+str(i)+'.jpg'))
                     print('\n')
 
 # -- NORMALIZATION DATA GENERATOR CLASS -- #

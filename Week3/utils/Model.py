@@ -7,11 +7,11 @@ from keras import backend as K
 class Model_MLP():
     """CLASS::Model_MLP"""
     def __init__(self, config_dict, trained=False):
-        model = self.get_model_structure(config_dict)
+        self.model = self.get_model_structure(config_dict)
         if trained:
             model.load_weights(config_dict['weights_path'])
-        layer_outputs = [layer.output for layer in model.layers]
-        self.model = Model(inputs=model.inputs, outputs=layer_outputs)
+        #layer_outputs = [layer.output for layer in model.layers]
+        #self.model = Model(inputs=model.inputs, outputs=layer_outputs)
 
     def get_model_structure(self,config_dict):
         model = Sequential()
@@ -28,11 +28,11 @@ class Model_MLP():
 class Model_MLPatches():
     """CLASS::Model_MLPatches"""
     def __init__(self,config_dict, phase='train', trained=False):
-        model = self.get_model_structure(config_dict, phase)
+        self.model = self.get_model_structure(config_dict, phase)
         if trained:
             model.load_weights(config_dict['weights_path'])
-        layer_outputs = [layer.output for layer in model.layers]
-        self.model = Model(inputs=model.inputs, outputs=layer_outputs)
+        #layer_outputs = [layer.output for layer in model.layers]
+        #self.model = Model(inputs=model.inputs, outputs=layer_outputs)
 
     def get_model_structure(self,config_dict, phase):
         model = Sequential()

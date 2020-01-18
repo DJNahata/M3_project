@@ -5,38 +5,16 @@ import os
 from utils.Kernels import histogram_intersection_kernel
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
+from utils.VisualWords import VisualWords
 
 from sklearn.cluster import MiniBatchKMeans
-
-
-class VisualWords():
-
-    def __init__(self, n_clusters):
-        self.n_clusters = n_clusters
-
-    def fit(self, descriptors):
-        self.codebook = MiniBatchKMeans(n_clusters=self.n_clusters,
-            verbose=False,
-            batch_size=self.n_clusters*20,
-            compute_labels=False,
-            reassignment_ratio=10**-4,
-            random_state=42)
-        descriptors = np.vstack(descriptors)
-        self.codebook.fit(descriptors)
-
-    def get_visual_words(self, descriptors):
-        visual_words = np.empty((len(descriptors), self.n_clusters), dtype=np.float32)
-        for i, descriptor in enumerate(descriptors):
-            words = self.codebook.predict(descriptor)
-            visual_words[i,:] = np.bincount(words, minlength=self.n_clusters)
-        return visual_words
 
 BASE_PATH = "task4_data"
 
 train_desc_path = BASE_PATH + "/task3_train_desc.pkl"
 test_desc_path = BASE_PATH + "/task3_test_desc.pkl"
-train_labels_path = BASE_PATH + "/task2_train_labels.pkl"
-test_labels_path = BASE_PATH + "/task2_test_labels.pkl"
+train_labels_path = BASE_PATH + "/task3_train_labels.pkl"
+test_labels_path = BASE_PATH + "/task3_test_labels.pkl"
 
 train_desc = pickle.load(open(train_desc_path,'rb'))
 test_desc = pickle.load(open(test_desc_path,'rb'))
