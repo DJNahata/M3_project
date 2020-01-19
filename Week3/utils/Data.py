@@ -47,7 +47,7 @@ class PatcherFactory():
         self.in_dir = in_directory
         self.out_dir = out_directory
 
-    def create_patches(self,patch_size=64):
+    def create_patches(self,patch_size=64,max_patches=4):
         total = 2688
         count = 0  
         for split_dir in os.listdir(self.in_dir):
@@ -61,7 +61,7 @@ class PatcherFactory():
                 for imname in os.listdir(os.path.join(self.in_dir,split_dir,class_dir)):
                     count += 1
                     im = Image.open(os.path.join(self.in_dir,split_dir,class_dir,imname))
-                    patches = skImage.extract_patches_2d(np.array(im), (64, 64), max_patches=4)
+                    patches = skImage.extract_patches_2d(np.array(im), (patch_size,patch_size), max_patches=max_patches)
                     print('Processed images: '+str(count)+' / '+str(total), end='\r')
                     for i,patch in enumerate(patches):
                         patch = Image.fromarray(patch)
