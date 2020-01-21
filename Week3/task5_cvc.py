@@ -12,7 +12,7 @@ from utils.VisualWords import VisualWords
 
 from sklearn.cluster import MiniBatchKMeans
 
-MODEL_DIR = 'Week3/model9.h5'
+MODEL_DIR = 'Week3/models/task3/model11.h5'
 DATASET_DIR = 'Databases/MIT_split'
 PATCH_SIZE = 64
 LAYER = 'dense0'
@@ -20,7 +20,7 @@ LAYER = 'dense0'
 if __name__ == "__main__":
     print('Loading Model..')
     config_dict = {
-        'layers':[{'units':3072,'activation':'relu'},{'units':768,'activation':'relu'}],
+        'layers':[{'units':3072,'activation':'relu'}],
         'img_size':PATCH_SIZE,
         'weights_path':MODEL_DIR
     
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     classes = {'coast':0,'forest':1,'highway':2,'inside_city':3,'mountain':4,'Opencountry':5,'street':6,'tallbuilding':7}
     num_patches = int(256/PATCH_SIZE)**2
 
-    if not os.path.isfile('Week3/task5_train_desc.pkl'):
+    if not os.path.isfile('Week3/task5_train_desc_2.pkl'):
         print('Get train descriptors...')
         num_img = 1881
         count=0
@@ -48,10 +48,10 @@ if __name__ == "__main__":
                 out = feat_extractor.predict(patches/255.)
                 train_desc.append(out)
                 count += 1
-        with open('Week3/task5_train_desc.pkl','wb') as file:
+        with open('Week3/task5_train_desc_2.pkl','wb') as file:
             pickle.dump(train_desc,file)
 
-    if not os.path.isfile('Week3/task5_test_desc.pkl'):
+    if not os.path.isfile('Week3/task5_test_desc_2.pkl'):
         print('Get test descriptors...')
         num_img = 807
         count=0
@@ -64,13 +64,13 @@ if __name__ == "__main__":
                 out = feat_extractor.predict(patches/255.)
                 test_desc.append(out)
                 count += 1
-        with open('Week3/task5_test_desc.pkl','wb') as file:
+        with open('Week3/task5_test_desc_2.pkl','wb') as file:
             pickle.dump(test_desc,file)
 
     train_labels = pickle.load(open('Week3/task2_train_label.pkl','rb'))
     test_labels = pickle.load(open('Week3/task2_test_label.pkl','rb'))
-    train_desc = pickle.load(open('Week3/task5_train_desc.pkl','rb'))
-    test_desc = pickle.load(open('Week3/task5_test_desc.pkl','rb'))
+    train_desc = pickle.load(open('Week3/task5_train_desc_2.pkl','rb'))
+    test_desc = pickle.load(open('Week3/task5_test_desc_2.pkl','rb'))
 
     results_train = []
     results_test = []
@@ -98,5 +98,5 @@ if __name__ == "__main__":
         print("All results: {}".format(cv.cv_results_))
         print('CLUSTER: {0}'.format(n_cluster))
     
-    with open('Week3/task5_results.pkl','wb') as file:
+    with open('Week3/task5_results_2.pkl','wb') as file:
         pickle.dump((results_train,results_test,best_params),file)
