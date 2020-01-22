@@ -13,13 +13,20 @@ img_width = 224
 img_height = 224
 batch_size = 16
 number_of_epoch = 20
+train_samples = 400
 validation_samples = 400
 test_samples = 807
 
+# Hyperparameters
+learning_rate = 1e-3
+optimizer = Adam(lr=learning_rate)
+dropout = 0.5
+weight_decay = 5e-5
+
 # Create model
-nasnetmob = NasNetMob()
+nasnetmob = NasNetMob(dropout=dropout, weight_decay=weight_decay)
 nasnetmob.freeze()
-nasnetmob.model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.001), metrics=['accuracy'])
+nasnetmob.model.compile(loss='categorical_crossentropy',optimizer=optimizer, metrics=['accuracy'])
 for layer in nasnetmob.model.layers:
     print(layer.name, layer.trainable)
 
@@ -31,7 +38,7 @@ test_generator = DR.get_test_data(batch_size=batch_size)
 
 history = nasnetmob.model.fit_generator(
     train_generator,
-    steps_per_epoch=(int(400//batch_size)+1),
+    steps_per_epoch=(int(train_samples//batch_size)+1),
     nb_epoch=number_of_epoch,
     validation_data=validation_generator,
     validation_steps= (int(validation_samples//batch_size)+1))
