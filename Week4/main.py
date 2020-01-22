@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 
 from keras.optimizers import Adam
@@ -37,7 +38,8 @@ history = nasnetmob.model.fit_generator(
 
 
 result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
-print(result)
+print('\nTest loss:',result[0])
+print('Test accuracy:',result[1])
 
 if True:
     # summarize history for accuracy

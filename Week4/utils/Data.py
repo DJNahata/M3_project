@@ -11,7 +11,7 @@ class DataRetrieval():
     def get_train_data(self, augmentation=True, img_input=(224,224), batch_size=16):
         if augmentation:
             datagen = ImageDataGenerator(
-                featurewise_center=True,
+                featurewise_center=False,
                 samplewise_center=False,
                 featurewise_std_normalization=False,
                 samplewise_std_normalization=False,
@@ -28,7 +28,7 @@ class DataRetrieval():
             )
         else:
             datagen = ImageDataGenerator(
-                featurewise_center=True,
+                featurewise_center=False,
                 samplewise_center=False,
                 featurewise_std_normalization=False,
                 samplewise_std_normalization=False,
@@ -43,7 +43,7 @@ class DataRetrieval():
 
     def get_validation_data(self, img_input=(224,224), batch_size=16):
         datagen = ImageDataGenerator(
-            featurewise_center=True,
+            featurewise_center=False,
             samplewise_center=False,
             featurewise_std_normalization=False,
             samplewise_std_normalization=False,
@@ -58,7 +58,7 @@ class DataRetrieval():
     
     def get_test_data(self, img_input=(224,224), batch_size=16):
         datagen = ImageDataGenerator(
-            featurewise_center=True,
+            featurewise_center=False,
             samplewise_center=False,
             featurewise_std_normalization=False,
             samplewise_std_normalization=False,
