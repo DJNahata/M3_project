@@ -2,6 +2,7 @@ from keras.applications.nasnet import preprocess_input
 from keras.preprocessing.image import ImageDataGenerator
 import os
 
+
 class DataRetrieval():
     """CLASS:DataRetrieval"""
     def __init__(self, data_dir):

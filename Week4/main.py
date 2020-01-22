@@ -16,10 +16,10 @@ validation_samples = 400
 test_samples = 807
 
 # Create model
-model = NasNetMob()    
-    
-model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.001), metrics=['accuracy'])
-for layer in model.layers:
+nasnetmob = NasNetMob()
+nasnetmob.freeze()
+nasnetmob.model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.001), metrics=['accuracy'])
+for layer in nasnetmob.model.layers:
     print(layer.name, layer.trainable)
 
 # Prepare data
@@ -28,7 +28,7 @@ train_generator = DR.get_train_data(batch_size=batch_size)
 validation_generator = DR.get_validation_data(batch_size=batch_size)
 test_generator = DR.get_test_data(batch_size=batch_size)
 
-history=model.fit_generator(
+history = nasnetmob.model.fit_generator(
     train_generator,
     steps_per_epoch=(int(400//batch_size)+1),
     nb_epoch=number_of_epoch,
@@ -36,7 +36,7 @@ history=model.fit_generator(
     validation_steps= (int(validation_samples//batch_size)+1))
 
 
-result = model.evaluate_generator(test_generator, val_samples=test_samples)
+result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
 print(result)
 
 if True:

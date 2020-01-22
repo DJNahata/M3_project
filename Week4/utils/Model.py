@@ -2,6 +2,7 @@ from keras.applications import NASNetMobile
 from keras.models import Model
 from keras.layers import Dense, Activation, GlobalAveragePooling2D
 
+
 class NasNetMob():
     """CLASS::NasNetMob"""
     def __init__(self,img_input=(224,224,3)):
@@ -12,9 +13,9 @@ class NasNetMob():
         self.model = Model(inputs=model.inputs, outputs=x)
 
     def freeze(self):
-        for layer in self.model.layers[-2]:
-            layer.trainable = False
+        for i in range(len(self.model.layers[:-2])):
+            self.model.layers[i].trainable = False
 
     def unfreeze(self):
-        for layer in self.model.layers[-2]:
-            layer.trainable = True
+        for i in range(len(self.model.layers[:-2])):
+            self.model.layers[i].trainable = True
