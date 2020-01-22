@@ -81,3 +81,4 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
             plt.xlabel('epoch')
             plt.legend(['train', 'validation'], loc='upper left')
             plt.savefig(work_dir+os.sep+str(ind1)+'_'+str(ind2)+'_loss.jpg')
+            plt.close()
