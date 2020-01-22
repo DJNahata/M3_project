@@ -27,3 +27,9 @@ class NasNetMob():
     def unfreeze(self):
         for i in range(len(self.model.layers[:-self.num_new_layers])):
             self.model.layers[i].trainable = True
+
+    def save_weights(self, filepath):
+        self.model.save_weights(filepath)
+    
+    def load_weigths(self, filepath):
+        self.model.load_weights(filepath)

@@ -16,13 +16,13 @@ class DataRetrieval():
                 featurewise_std_normalization=False,
                 samplewise_std_normalization=False,
                 preprocessing_function=preprocess_input, 
-                rotation_range=0.,
-                width_shift_range=0.,
-                height_shift_range=0.,
+                rotation_range=5,
+                width_shift_range=0.5,
+                height_shift_range=0.5,
                 shear_range=0.,
-                zoom_range=0.,
+                zoom_range=0.2,
                 fill_mode='nearest',
-                horizontal_flip=False,
+                horizontal_flip=True,
                 vertical_flip=False,
                 rescale=None
             )
