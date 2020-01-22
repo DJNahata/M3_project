@@ -7,7 +7,7 @@ class DataRetrieval():
     def __init__(self, data_dir):
         self.data_dir = data_dir
     
-    def get_train_data(self, augmentation=True, img_input=(224,224), bs=16):
+    def get_train_data(self, augmentation=True, img_input=(224,224), batch_size=16):
         if augmentation:
             datagen = ImageDataGenerator(
                 featurewise_center=True,
@@ -36,11 +36,26 @@ class DataRetrieval():
         return datagen.flow_from_directory(
             self.data_dir+os.sep+'train',
             target_size=img_input,
-            batch_size=bs,
+            batch_size=batch_size,
+            class_mode='categorical'
+        )
+
+    def get_validation_data(self, img_input=(224,224), batch_size=16):
+        datagen = ImageDataGenerator(
+            featurewise_center=True,
+            samplewise_center=False,
+            featurewise_std_normalization=False,
+            samplewise_std_normalization=False,
+            preprocessing_function=preprocess_input
+        )
+        return datagen.flow_from_directory(
+            self.data_dir+os.sep+'validation',
+            target_size=img_input,
+            batch_size=batch_size,
             class_mode='categorical'
         )
     
-    def get_test_data(self,img_input=(224,224), bs=16):
+    def get_test_data(self, img_input=(224,224), batch_size=16):
         datagen = ImageDataGenerator(
             featurewise_center=True,
             samplewise_center=False,
@@ -51,6 +66,6 @@ class DataRetrieval():
         return datagen.flow_from_directory(
             self.data_dir+os.sep+'test',
             target_size=img_input,
-            batch_size=bs,
+            batch_size=batch_size,
             class_mode='categorical'
         )
