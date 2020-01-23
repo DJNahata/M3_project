@@ -8,7 +8,7 @@ from utils.Data import DataRetrieval
 from utils.Model import NasNetMob
 
 
-def print_history(history):
+def print_history(history, freezed):
     if summarize_history:
         # summarize history for accuracy
         plt.plot(history.history['acc'])
@@ -17,7 +17,11 @@ def print_history(history):
         plt.ylabel('accuracy')
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper left')
-        plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_accuracy.jpg')
+        if freezed:
+            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_freezed_accuracy.jpg')
+        else:
+            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_unfreezed_accuracy.jpg')
+
         plt.close()
         # summarize history for loss
         plt.plot(history.history['loss'])
@@ -26,12 +30,15 @@ def print_history(history):
         plt.ylabel('loss')
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper left')
-        plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_loss.jpg')
+        if freezed:
+            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_loss.jpg')
+        else:
+            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_unfreezed_loss.jpg')
         plt.close()
 
 
 def train(model, train_optimizer, generator_train,
-          generator_validation, samples_train, samples_validation, batch, nb_epochs):
+          generator_validation, samples_train, samples_validation, batch, nb_epochs, freezed):
     model.compile(loss='categorical_crossentropy', optimizer=train_optimizer, metrics=['accuracy'])
 
     history = model.fit_generator(
@@ -41,7 +48,7 @@ def train(model, train_optimizer, generator_train,
         validation_data=generator_validation,
         validation_steps=(int(samples_validation // batch) + 1))
 
-    print_history(history)
+    print_history(history, freezed)
 
 
 data_dir = '/home/grupo07/datasets/MIT_400'
@@ -77,7 +84,8 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
         nasnetmob = NasNetMob(dropout=dropout, weight_decay=weight_decay)
         nasnetmob.freeze()
 
-        train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs)
+        train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs, True)
+
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
         print('\nTest loss:', result[0])
         print('Test accuracy:', result[1])
@@ -93,7 +101,9 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
 
         if run_after_unfreeze:
             nasnetmob.unfreeze()
-            train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs)
+            learning_rate = learning_rate / 10
+            train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs/2, False)
+
             result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
             print('\nTest loss:', result[0])
             print('Test accuracy:', result[1])
