@@ -45,7 +45,7 @@ def train(model, train_optimizer, generator_train,
 
 
 data_dir = '/home/grupo07/datasets/MIT_400'
-work_dir = '/home/grupo07/work'
+work_dir = '/home/grupo07/work_unfreeze'
 img_width = 224
 img_height = 224
 batch_size = 16
@@ -53,7 +53,7 @@ epochs = 100
 train_samples = 400
 validation_samples = 400
 test_samples = 807
-run_after_unfreeze = False
+run_after_unfreeze = True
 summarize_history = True
 
 # Prepare data
@@ -76,11 +76,12 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
         # Create model
         nasnetmob = NasNetMob(dropout=dropout, weight_decay=weight_decay)
         nasnetmob.freeze()
-        train(nasnetmob.model)
+
+        train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs)
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
         print('\nTest loss:', result[0])
         print('Test accuracy:', result[1])
-        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info.txt', 'w') as f:
+        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_freezed.txt', 'w') as f:
             to_write = 'Optimizer: ' + optimizer_name + \
                        '\nLearning rate: ' + str(learning_rate) + \
                        '\nDropout: ' + str(dropout) + \
@@ -90,17 +91,18 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
                        '\n'
             f.write(to_write)
 
-        nasnetmob.unfreeze()
-        train(nasnetmob.model)
-        result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
-        print('\nTest loss:', result[0])
-        print('Test accuracy:', result[1])
-        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_unfreezed.txt', 'w') as f:
-            to_write = 'Optimizer: ' + optimizer_name + \
-                       '\nLearning rate: ' + str(learning_rate) + \
-                       '\nDropout: ' + str(dropout) + \
-                       '\nWeight decay: ' + str(weight_decay) + \
-                       '\nTest loss: ' + str(result[0]) + \
-                       '\nTest accuracy: ' + str(result[1]) + \
-                       '\n'
-            f.write(to_write)
+        if run_after_unfreeze:
+            nasnetmob.unfreeze()
+            train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs)
+            result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
+            print('\nTest loss:', result[0])
+            print('Test accuracy:', result[1])
+            with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_unfreezed.txt', 'w') as f:
+                to_write = 'Optimizer: ' + optimizer_name + \
+                        '\nLearning rate: ' + str(learning_rate) + \
+                        '\nDropout: ' + str(dropout) + \
+                        '\nWeight decay: ' + str(weight_decay) + \
+                        '\nTest loss: ' + str(result[0]) + \
+                        '\nTest accuracy: ' + str(result[1]) + \
+                        '\n'
+                f.write(to_write)
