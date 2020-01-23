@@ -7,6 +7,7 @@ from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nada
 from utils.Data import DataRetrieval
 from utils.Model import NasNetMob
 
+
 def print_history(history):
     if summarize_history:
         # summarize history for accuracy
@@ -31,10 +32,7 @@ def print_history(history):
 
 def train(model, train_optimizer, generator_train,
           generator_validation, samples_train, samples_validation, batch, nb_epochs):
-
     model.compile(loss='categorical_crossentropy', optimizer=train_optimizer, metrics=['accuracy'])
-    # for layer in nasnetmob.model.layers:
-    #     print(layer.name, layer.trainable)
 
     history = model.fit_generator(
         generator_train,
@@ -70,7 +68,6 @@ optimizers = {'SGD': SGD, 'RMSprop': RMSprop, 'Adagrad': Adagrad, 'Adadelta': Ad
 learning_rates = [item + abs(np.random.normal(0, item)) for item in np.logspace(-5, -1, 6)]
 for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
     for ind2, learning_rate in enumerate(learning_rates):
-
         # Hyperparameters
         optimizer = optimizer_(lr=learning_rate)
         dropout = 0.5
@@ -98,7 +95,7 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
         print('\nTest loss:', result[0])
         print('Test accuracy:', result[1])
-        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info.txt', 'w') as f:
+        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_unfreezed.txt', 'w') as f:
             to_write = 'Optimizer: ' + optimizer_name + \
                        '\nLearning rate: ' + str(learning_rate) + \
                        '\nDropout: ' + str(dropout) + \
