@@ -118,7 +118,7 @@ if __name__ == "__main__":
     with open(WORK_DIR + os.sep + str(NAME)+'_freezed_info.txt', 'w') as f:
         to_write = 'Optimizer: ' + OPTIMIZER.__class__.__name__ + \
                     '\nLearning rate: ' + str(LR) + \
-                    '\nBatch_size: ' + str(BATCH_SIZE) + \   
+                    '\nBatch_size: ' + str(BATCH_SIZE) + \
                     '\nDropout: ' + str(DROPOUT) + \
                     '\nBatchNorm: ' + str(BATCH_NORM) + \
                     '\nWeight decay: ' + str(WEIGHT_DECAY) + \
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         with open(WORK_DIR + os.sep + str(NAME)+'_unfreezed_info.txt', 'w') as f:
             to_write = 'Optimizer: ' + OPTIMIZER.__class__.__name__ + \
                         '\nLearning rate: ' + str(UNFREEZE_LR) + \
-                        '\nBatch_size: ' + str(BATCH_SIZE) + \   
+                        '\nBatch_size: ' + str(BATCH_SIZE) + \
                         '\nDropout: ' + str(DROPOUT) + \
                         '\nBatchNorm: ' + str(BATCH_NORM) + \
                         '\nWeight decay: ' + str(WEIGHT_DECAY) + \
