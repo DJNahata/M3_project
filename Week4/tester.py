@@ -9,26 +9,29 @@ from utils.Model import NasNetMob
 
 # -- CONSTANTS -- #
 DATA_DIR = '/home/grupo07/datasets/MIT_400'
-WORK_DIR = '/home/grupo07/work'
-NAME = 'experiment'
+WORK_DIR = '/home/grupo07/task3_work_DA_NReg'
+NAME = 'experiment1'
 
 # -- CONFIG DICTIONARY -- #
 BATCH_SIZE = 16
 BATCH_NORM = False
-UNITS_2DENSE = 512 # int to activate
-LR = 1E-3
-UNFREEZE_LR = 1e-5
-DA_AUG = True
-TRAIN_SAMPLES = 400
-VAL_SAMPLES= 400
-TEST_SAMPLES = 807
-RUN_AFTER_FREEZE = False
-EPOCHS = 20
-OPTIMIZER = SGD
-MOMENTUM = 0.9 
-NESTEROV = True
+UNITS_2DENSE = None # int to activate
 DROPOUT = None # float to enable
 WEIGHT_DECAY = None # float to enable
+LR = 1E-3
+EARLY_PATIENCE = 10
+REDUCE_PATIENCE = 10
+REDUCE_FACTOR = 0.1
+UNFREEZE_LR = 1e-5
+DA_AUG = True
+TRAIN_SAMPLES = 10*400
+VAL_SAMPLES= 10*400
+TEST_SAMPLES = 807
+RUN_AFTER_FREEZE = False
+EPOCHS = 30
+OPTIMIZER = 'Adam'
+MOMENTUM = 0.9 
+NESTEROV = True
 
 
 def print_history(history, freezed):
@@ -74,28 +77,39 @@ def train(model, train_optimizer, generator_train,
 
     print_history(history, freezed)
 
+def get_optimizer(name, lr):
+    if name == 'Adam':
+        optimizer = Adam(lr=lr)
+    elif name == 'Adadelta':
+        optimizer = Adadelta(lr=lr)
+    elif name == 'RMSprop':
+        optimizer = RMSprop(lr=lr)
+    else:
+        optimizer = SGD(lr=lr, momentum=MOMENTUM, nesterov=NESTEROV)
+    return optimizer
+
+
 if __name__ == "__main__":
 
     if not os.path.isdir(WORK_DIR):
         os.mkdir(WORK_DIR)
 
     print('Loading Data...')
-    DR = DataRetrieval(data_dir)
-    train_generator = DR.get_train_data(augmentation=DA_AUG, batch_size=batch_size)
-    val_generator = DR.get_validation_data(batch_size=batch_size)
-    test_generator = DR.get_test_data(batch_size=batch_size)
+    DR = DataRetrieval(DATA_DIR)
+    train_generator = DR.get_train_data(augmentation=DA_AUG, batch_size=BATCH_SIZE)
+    val_generator = DR.get_validation_data(batch_size=BATCH_SIZE)
+    test_generator = DR.get_test_data(batch_size=BATCH_SIZE)
     print('Loaded.')
 
     print('Loading Model...')
     nasnetmob = NasNetMob(dense=UNITS_2DENSE, batchnorm=BATCH_NORM, dropout=DROPOUT, weight_decay=WEIGHT_DECAY)
     nasnetmob.freeze()
+    early = EarlyStopping(monitor='val_loss',patience=EARLY_PATIENCE)
+    reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=REDUCE_FACTOR, patience=REDUCE_PATIENCE)
     print('Loaded.')
 
     print('Training...')
-    if OPTIMIZER is SGD:
-        optimizer = OPTIMIZER(learning_rate=LR, momentum=MOMENTUM, nesterov=NESTEROV)
-    else:
-        optimizer = OPTIMIZER(learning_rate=LR)
+    optimizer = get_optimizer(OPTIMIZER, LR)
     
     train(nasnetmob.model, optimizer, train_generator, val_generator,
               TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
@@ -117,10 +131,7 @@ if __name__ == "__main__":
 
     if RUN_AFTER_FREEZE:
         nasnetmob.unfreeze()
-        if OPTIMIZER is SGD:
-            optimizer = OPTIMIZER(learning_rate=UNFREEZE_LR, momentum=MOMENTUM, nesterov=NESTEROV)
-        else:
-            optimizer = OPTIMIZER(learning_rate=UNFREEZE_LR)
+        optimizer = get_optimizer(OPTIMIZER, UNFREEZE_LR)
     
         train(nasnetmob.model, optimizer, train_generator, val_generator,
         	TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
@@ -138,4 +149,5 @@ if __name__ == "__main__":
                         '\nEpochs: ' + str(EPOCHS) + \
                         '\nFreezed: false ' + \
                         '\n'
+
             f.write(to_write)
