@@ -32,6 +32,7 @@ EPOCHS = 30
 OPTIMIZER = 'Adam'
 MOMENTUM = 0.9 
 NESTEROV = True
+summarize_history = True
 
 
 def print_history(history, freezed):
@@ -65,7 +66,7 @@ def print_history(history, freezed):
 
 def train(model, train_optimizer, generator_train,
           generator_validation, samples_train, samples_validation,
-          batch, nb_epochs, freezed):
+          batch, nb_epochs, freezed, callbacks):
     model.compile(loss='categorical_crossentropy', optimizer=train_optimizer, metrics=['accuracy'])
 
     history = model.fit_generator(
@@ -73,7 +74,8 @@ def train(model, train_optimizer, generator_train,
         steps_per_epoch=(int(samples_train // batch) + 1),
         nb_epoch=nb_epochs,
         validation_data=generator_validation,
-        validation_steps=(int(samples_validation // batch) + 1))
+        validation_steps=(int(samples_validation // batch) + 1),
+        callbacks = callbacks)
 
     print_history(history, freezed)
 
@@ -112,7 +114,7 @@ if __name__ == "__main__":
     optimizer = get_optimizer(OPTIMIZER, LR)
     
     train(nasnetmob.model, optimizer, train_generator, val_generator,
-              TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
+              TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True, [early, reduce_lr])
 
     result = nasnetmob.model.evaluate_generator(test_generator, val_samples=TEST_SAMPLES)
     with open(WORK_DIR + os.sep + str(NAME)+'_freezed_info.txt', 'w') as f:
@@ -134,7 +136,7 @@ if __name__ == "__main__":
         optimizer = get_optimizer(OPTIMIZER, UNFREEZE_LR)
     
         train(nasnetmob.model, optimizer, train_generator, val_generator,
-        	TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
+        	TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True, [early, reduce_lr])
         
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=TEST_SAMPLES)
         with open(WORK_DIR + os.sep + str(NAME)+'_unfreezed_info.txt', 'w') as f:
