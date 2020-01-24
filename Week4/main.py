@@ -96,6 +96,7 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
                        '\nWeight decay: ' + str(weight_decay) + \
                        '\nTest loss: ' + str(result[0]) + \
                        '\nTest accuracy: ' + str(result[1]) + \
+                       '\nFreezed: true' + \
                        '\n'
             f.write(to_write)
 
@@ -114,5 +115,6 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
                         '\nWeight decay: ' + str(weight_decay) + \
                         '\nTest loss: ' + str(result[0]) + \
                         '\nTest accuracy: ' + str(result[1]) + \
+                        '\nFreezed: false' + \
                         '\n'
                 f.write(to_write)
