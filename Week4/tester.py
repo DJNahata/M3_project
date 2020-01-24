@@ -30,6 +30,50 @@ NESTEROV = True
 DROPOUT = None # float to enable
 WEIGHT_DECAY = None # float to enable
 
+
+def print_history(history, freezed):
+    if summarize_history:
+        # summarize history for accuracy
+        plt.plot(history.history['acc'])
+        plt.plot(history.history['val_acc'])
+        plt.title('model accuracy')
+        plt.ylabel('accuracy')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'validation'], loc='upper left')
+        if freezed:
+            plt.savefig(WORK_DIR + os.sep + str(NAME) + '_acc.jpg')
+        else:
+            plt.savefig(WORK_DIR + os.sep + str(NAME) + '_unfreezed_acc.jpg')
+
+        plt.close()
+        # summarize history for loss
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
+        plt.title('model loss')
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'validation'], loc='upper left')
+        if freezed:
+            plt.savefig(WORK_DIR + os.sep + str(NAME) + '_loss.jpg')
+        else:
+            plt.savefig(WORK_DIR + os.sep + str(NAME) + '_' + str(lr) + '_unfreezed_loss.jpg')
+        plt.close()
+
+
+def train(model, train_optimizer, generator_train,
+          generator_validation, samples_train, samples_validation,
+          batch, nb_epochs, freezed):
+    model.compile(loss='categorical_crossentropy', optimizer=train_optimizer, metrics=['accuracy'])
+
+    history = model.fit_generator(
+        generator_train,
+        steps_per_epoch=(int(samples_train // batch) + 1),
+        nb_epoch=nb_epochs,
+        validation_data=generator_validation,
+        validation_steps=(int(samples_validation // batch) + 1))
+
+    print_history(history, freezed)
+
 if __name__ == "__main__":
 
     if not os.path.isdir(WORK_DIR):
@@ -53,35 +97,11 @@ if __name__ == "__main__":
     else:
         optimizer = OPTIMIZER(learning_rate=LR)
     
-    nasnetmob.model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-    history = model.fit_generator(
-        train_generator,
-        steps_per_epoch=(int(TRAIN_SAMPLES // BATCH_SIZE) + 1),
-        nb_epoch=EPOCHS,
-        validation_data=val_generator,
-        validation_steps=(int(VAL_SAMPLES // BATCH_SIZE) + 1)
-    )
-    print('Plotting...')
-    plt.plot(history.history['acc'])
-    plt.plot(history.history['val_acc'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.savefig(WORK_DIR + os.sep + str(NAME)+'freezed_acc.jpg')
-    plt.close()
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.savefig(WORK_DIR+ os.sep + str(NAME)+'freezed_loss.jpg')
-    plt.close()
-    print('Ploted.')
+    train(nasnetmob.model, optimizer, train_generator, val_generator,
+              TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
 
     result = nasnetmob.model.evaluate_generator(test_generator, val_samples=TEST_SAMPLES)
-    with open(WORK_DIR + os.sep + str(NAME)+'freezed_info.txt', 'w') as f:
+    with open(WORK_DIR + os.sep + str(NAME)+'_freezed_info.txt', 'w') as f:
         to_write = 'Optimizer: ' + OPTIMIZER.__class__.__name__ + \
                     '\nLearning rate: ' + str(LR) + \
                     '\nBatch_size: ' + str(BATCH_SIZE) + \   
@@ -91,6 +111,7 @@ if __name__ == "__main__":
                     '\nTest loss: ' + str(result[0]) + \
                     '\nTest accuracy: ' + str(result[1]) + \
                     '\nEpochs: ' + str(EPOCHS) + \
+                    '\nFreezed: true ' + \
                     '\n'
         f.write(to_write)
 
@@ -100,37 +121,14 @@ if __name__ == "__main__":
             optimizer = OPTIMIZER(learning_rate=UNFREEZE_LR, momentum=MOMENTUM, nesterov=NESTEROV)
         else:
             optimizer = OPTIMIZER(learning_rate=UNFREEZE_LR)
-        nasnetmob.model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-        history = model.fit_generator(
-            train_generator,
-            steps_per_epoch=(int(TRAIN_SAMPLES // BATCH_SIZE) + 1),
-            nb_epoch=EPOCHS,
-            validation_data=val_generator,
-            validation_steps=(int(VAL_SAMPLES // BATCH_SIZE) + 1)
-        )
-        print('Plotting...')
-        plt.plot(history.history['acc'])
-        plt.plot(history.history['val_acc'])
-        plt.title('model accuracy')
-        plt.ylabel('accuracy')
-        plt.xlabel('epoch')
-        plt.legend(['train', 'validation'], loc='upper left')
-        plt.savefig(WORK_DIR + os.sep + str(NAME)+'unfreezed_acc.jpg')
-        plt.close()
-        plt.plot(history.history['loss'])
-        plt.plot(history.history['val_loss'])
-        plt.title('model loss')
-        plt.ylabel('loss')
-        plt.xlabel('epoch')
-        plt.legend(['train', 'validation'], loc='upper left')
-        plt.savefig(WORK_DIR+ os.sep + str(NAME)+'unfreezed_loss.jpg')
-        plt.close()
-        print('Ploted.')
-
+    
+        train(nasnetmob.model, optimizer, train_generator, val_generator,
+        	TRAIN_SAMPLES, VAL_SAMPLES, BATCH_SIZE, EPOCHS, True)
+        
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=TEST_SAMPLES)
-        with open(WORK_DIR + os.sep + str(NAME)+'unfreezed_info.txt', 'w') as f:
+        with open(WORK_DIR + os.sep + str(NAME)+'_unfreezed_info.txt', 'w') as f:
             to_write = 'Optimizer: ' + OPTIMIZER.__class__.__name__ + \
-                        '\nLearning rate: ' + str(LR) + \
+                        '\nLearning rate: ' + str(UNFREEZE_LR) + \
                         '\nBatch_size: ' + str(BATCH_SIZE) + \   
                         '\nDropout: ' + str(DROPOUT) + \
                         '\nBatchNorm: ' + str(BATCH_NORM) + \
@@ -138,5 +136,6 @@ if __name__ == "__main__":
                         '\nTest loss: ' + str(result[0]) + \
                         '\nTest accuracy: ' + str(result[1]) + \
                         '\nEpochs: ' + str(EPOCHS) + \
+                        '\nFreezed: false ' + \
                         '\n'
             f.write(to_write)
