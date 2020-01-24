@@ -8,7 +8,7 @@ from utils.Data import DataRetrieval
 from utils.Model import NasNetMob
 
 
-def print_history(history, freezed):
+def print_history(history, freezed, opt_name, lr):
     if summarize_history:
         # summarize history for accuracy
         plt.plot(history.history['acc'])
@@ -18,9 +18,9 @@ def print_history(history, freezed):
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper left')
         if freezed:
-            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_freezed_accuracy.jpg')
+            plt.savefig(work_dir + os.sep + str(opt_name) + '_' + str(lr) + '_freezed_accuracy.jpg')
         else:
-            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_unfreezed_accuracy.jpg')
+            plt.savefig(work_dir + os.sep + str(opt_name) + '_' + str(lr) + '_unfreezed_accuracy.jpg')
 
         plt.close()
         # summarize history for loss
@@ -31,14 +31,15 @@ def print_history(history, freezed):
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper left')
         if freezed:
-            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_loss.jpg')
+            plt.savefig(work_dir + os.sep + str(opt_name) + '_' + str(lr) + '_loss.jpg')
         else:
-            plt.savefig(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_unfreezed_loss.jpg')
+            plt.savefig(work_dir + os.sep + str(opt_name) + '_' + str(lr) + '_unfreezed_loss.jpg')
         plt.close()
 
 
 def train(model, train_optimizer, generator_train,
-          generator_validation, samples_train, samples_validation, batch, nb_epochs, freezed):
+          generator_validation, samples_train, samples_validation,
+          batch, nb_epochs, freezed, opt_name, lr):
     model.compile(loss='categorical_crossentropy', optimizer=train_optimizer, metrics=['accuracy'])
 
     history = model.fit_generator(
@@ -48,7 +49,7 @@ def train(model, train_optimizer, generator_train,
         validation_data=generator_validation,
         validation_steps=(int(samples_validation // batch) + 1))
 
-    print_history(history, freezed)
+    print_history(history, freezed, opt_name, lr)
 
 
 data_dir = '/home/grupo07/datasets/MIT_400'
@@ -84,38 +85,42 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
         nasnetmob = NasNetMob(dropout=dropout, weight_decay=weight_decay)
         nasnetmob.freeze()
 
-        train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs, True)
+        train(nasnetmob.model, optimizer, train_generator, validation_generator
+              , train_samples, validation_samples, batch_size, epochs, True, , optimizer_name, learning_rate)
 
         result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
         print('\nTest loss:', result[0])
         print('Test accuracy:', result[1])
-        with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_freezed.txt', 'w') as f:
+        with open(work_dir + os.sep + str(optimizer_name) + '_' + str(learning_rate) + '_info_freezed.txt', 'w') as f:
             to_write = 'Optimizer: ' + optimizer_name + \
                        '\nLearning rate: ' + str(learning_rate) + \
                        '\nDropout: ' + str(dropout) + \
                        '\nWeight decay: ' + str(weight_decay) + \
                        '\nTest loss: ' + str(result[0]) + \
                        '\nTest accuracy: ' + str(result[1]) + \
-                       '\nFreezed: true' + \
+                       '\nFreezed: true ' + \
+                       '\nEpochs: ' + str(epochs) + \
                        '\n'
             f.write(to_write)
 
         if run_after_unfreeze:
             nasnetmob.unfreeze()
-            learning_rate = learning_rate / 10
-            optimizer = optimizer_(lr=learning_rate)
-            train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs/2, False)
+            unfreeze_learning_rate = 1e-5
+            optimizer = optimizer_(lr=unfreeze_learning_rate)
+            train(nasnetmob.model, optimizer, train_generator, validation_generator,
+                  train_samples, validation_samples, batch_size, epochs, False, optimizer_name, learning_rate)
 
             result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
             print('\nTest loss:', result[0])
             print('Test accuracy:', result[1])
-            with open(work_dir + os.sep + str(ind1) + '_' + str(ind2) + '_info_unfreezed.txt', 'w') as f:
+            with open(work_dir + os.sep + str(optimizer_name) + '_' + str(learning_rate) + '_info_unfreezed.txt', 'w') as f:
                 to_write = 'Optimizer: ' + optimizer_name + \
-                        '\nLearning rate: ' + str(learning_rate) + \
+                        '\nLearning rate: ' + str(unfreeze_learning_rate) + \
                         '\nDropout: ' + str(dropout) + \
                         '\nWeight decay: ' + str(weight_decay) + \
                         '\nTest loss: ' + str(result[0]) + \
                         '\nTest accuracy: ' + str(result[1]) + \
-                        '\nFreezed: false' + \
+                        '\nFreezed: false ' + \
+                        '\nEpochs: ' + str(epochs) + \
                         '\n'
                 f.write(to_write)
