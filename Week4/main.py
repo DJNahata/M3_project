@@ -103,6 +103,7 @@ for ind1, (optimizer_name, optimizer_) in enumerate(optimizers.items()):
         if run_after_unfreeze:
             nasnetmob.unfreeze()
             learning_rate = learning_rate / 10
+            optimizer = optimizer_(lr=learning_rate)
             train(nasnetmob.model, optimizer, train_generator, validation_generator, train_samples, validation_samples, batch_size, epochs/2, False)
 
             result = nasnetmob.model.evaluate_generator(test_generator, val_samples=test_samples)
