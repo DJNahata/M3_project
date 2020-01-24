@@ -1,19 +1,25 @@
 from keras.applications import NASNetMobile
 from keras.models import Model
-from keras.layers import Dense, Activation, GlobalAveragePooling2D, Dropout
+from keras.layers import Dense, Activation, GlobalAveragePooling2D, Dropout, BatchNormalization
 from keras.regularizers import l2
 
 
 class NasNetMob():
     """CLASS::NasNetMob"""
-    def __init__(self, img_input=(224,224,3), dropout=None, weight_decay=None):
+    def __init__(self, img_input=(224,224,3), dense=None, batchnorm=False, dropout=None, weight_decay=None):
         model = NASNetMobile(input_shape=img_input, include_top=False, weights='imagenet')
         self.num_new_layers = 2
         x = model.output
         x = GlobalAveragePooling2D()(x)
-        if dropout:
+        if dense:
+            x = Dense(units=dense, activation='relu', name='intermidiate')
+            self.num_new_layers += 1
+        if batchnorm:
+            x = BatchNormalization()(x)
+            self.num_new_layers += 1
+        if dropout and (batchnorm is False):
             x = Dropout(dropout)(x)
-            self.num_new_layers = 3
+            self.num_new_layers += 1
         if weight_decay:
             x = Dense(units=8, activation='softmax', kernel_regularizer=l2(weight_decay), name='predictions')(x)
         else:
