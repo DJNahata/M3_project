@@ -8,22 +8,23 @@ from keras import optimizers
 from keras import callbacks
 
 from utils.Data import DataRetrieval
-from models import baseline
+from models import *
 
 
 # Parameters
 data_dir = '/home/mcv/datasets/MIT_split'
-work_dir = '/home/grupo07/week5_work/baseline'
+work_dir = '/home/grupo07/week5_work/improvedE'
 if not os.path.exists(work_dir):
     os.makedirs(work_dir)
 batch_size = 16
 epochs = 100
 input_shape = (256,256,3)
 learning_rate = 1e-3
+weight_decay = 5e-5
 
 # Create model
 optimizer = optimizers.Adam(lr=learning_rate)
-model = baseline(input_shape=input_shape, optimizer=optimizer)
+model = improvedE(input_shape=input_shape, optimizer=optimizer, weight_decay=weight_decay)
 
 # Print model
 model.summary()
