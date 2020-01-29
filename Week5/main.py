@@ -19,7 +19,7 @@ if not os.path.exists(work_dir):
 batch_size = 16
 epochs = 100
 input_shape = (256,256,3)
-learning_rate = 1e-3
+learning_rate = 1e-4
 weight_decay = 5e-5
 
 # Create model
