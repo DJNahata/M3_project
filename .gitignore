@@ -7,7 +7,7 @@ __pycache__/
 Databases/
 SavePath/
 
-models/
+Week3/models/
 requirements.txt
 Week3/*.h5
 *.pkl
