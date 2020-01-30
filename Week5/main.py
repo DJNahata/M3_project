@@ -13,18 +13,18 @@ from models import *
 
 # Parameters
 data_dir = '/home/mcv/datasets/MIT_split'
-work_dir = '/home/grupo07/week5_work/improvedE'
+work_dir = '/home/grupo07/week5_work/prefinalE'
 if not os.path.exists(work_dir):
     os.makedirs(work_dir)
 batch_size = 16
 epochs = 100
 input_shape = (256,256,3)
-learning_rate = 1e-4
+learning_rate = 5e-4
 weight_decay = 5e-5
 
 # Create model
 optimizer = optimizers.Adam(lr=learning_rate)
-model = improvedE(input_shape=input_shape, optimizer=optimizer, weight_decay=weight_decay)
+model = prefinalE(input_shape=input_shape, optimizer=optimizer, weight_decay=weight_decay)
 
 # Print model
 model.summary()
@@ -36,8 +36,8 @@ train_generator = DR.get_train_data(augmentation=True, batch_size=batch_size)
 validation_generator = DR.get_validation_data(batch_size=batch_size)
 
 # Train model
-reduce_lr = callbacks.ReduceLROnPlateau(monitor='val_loss', mode='min', factor=0.2, patience=5)
-early_stopping = callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=10)
+reduce_lr = callbacks.ReduceLROnPlateau(monitor='val_loss', mode='min', factor=0.2, patience=10)
+early_stopping = callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=20)
 
 history = model.fit_generator(
     train_generator,
