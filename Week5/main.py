@@ -12,19 +12,18 @@ from models import *
 
 
 # Parameters
+batch_size = 16
+epochs = 200
+input_shape = (256,256,3)
+learning_rate = 1e-3
 data_dir = '/home/mcv/datasets/MIT_split'
-work_dir = '/home/grupo07/week5_work/prefinalE'
+work_dir = '/home/grupo07/week5_work/final_'+str(batch_size)+'_'+str(learning_rate)
 if not os.path.exists(work_dir):
     os.makedirs(work_dir)
-batch_size = 16
-epochs = 100
-input_shape = (256,256,3)
-learning_rate = 5e-4
-weight_decay = 5e-5
 
 # Create model
 optimizer = optimizers.Adam(lr=learning_rate)
-model = prefinalE(input_shape=input_shape, optimizer=optimizer, weight_decay=weight_decay)
+model = final(input_shape=input_shape, optimizer=optimizer)
 
 # Print model
 model.summary()
