@@ -17,13 +17,13 @@ epochs = 200
 input_shape = (256,256,3)
 learning_rate = 1e-3
 data_dir = '/home/mcv/datasets/MIT_split'
-work_dir = '/home/grupo07/week5_work/final_'+str(batch_size)+'_'+str(learning_rate)
+work_dir = '/home/grupo07/week5_work/otherC_dropout06_lr_1e-3'
 if not os.path.exists(work_dir):
     os.makedirs(work_dir)
 
 # Create model
 optimizer = optimizers.Adam(lr=learning_rate)
-model = final(input_shape=input_shape, optimizer=optimizer)
+model = otherC(input_shape=input_shape, optimizer=optimizer, dropout=0.6)
 
 # Print model
 model.summary()
