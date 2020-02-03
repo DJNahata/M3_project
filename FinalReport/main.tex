@@ -38,7 +38,7 @@
 %
 \begin{abstract}
 Image classification is a classical problem in which a system is designed to classify images into a set of classes. This problem can be addressed using multiple techniques, from using classical computer vision descriptor and techniques to the latest advanced deep learning based methods.
-In this document an image classification system is built by using different approaches and tools. It starts addressing the problem with a Bag of Visual Words approach supported by some machine learning techniques, to end introducing the use of Deep Learning by using Convolutional Neural Networks to provide a set of learned features or to apply Transfer Learning from a different classification problem. Finally, a new architecture is proposed that tries to obtain the best possible accuracy while maintaining a compact structure to minimize the number of parameters to learn. The aim of this project is also to analyze the benefits provided for each method. \todo{1. remove this cite now just useful to avoid compile warning}\cite{opencv_library}
+In this document an image classification system is built by using different approaches and tools. It starts addressing the problem with a Bag of Visual Words approach supported by some machine learning techniques, to end introducing the use of Deep Learning by using Convolutional Neural Networks to provide a set of learned features or to apply Transfer Learning from a different classification problem. Finally, a new architecture is proposed that tries to obtain the best possible accuracy while maintaining a compact structure to minimize the number of parameters to learn. The aim of this project is also to analyze the benefits provided for each method.
 
 \keywords{Image classification \and Deep Learning  \and Computer Vision}
 \end{abstract}
@@ -77,12 +77,11 @@ The project is structured to detail the steps followed to get the final system. 
 \section{Methods and Procedures}
 \subsection{Bag of Visual Words (BOvW) framework} \label{BOvW}
 
-In traditional computer vision techniques, local features such as SIFT or SURF \todo{4. Cite something about SIFT or SURF} are used to represent images for image categorization. Matching key-point's features based on similarity was the global framework to tackle these challenges.
+In traditional computer vision techniques, local features such as SIFT or SURF \cite{790410} are used to represent images for image categorization. Matching key-point's features based on similarity was the global framework to tackle these challenges.
 
 These approaches face major issues, mostly because of the computational cost and the dimensionality of the features extracted.
 
-Bag-of-Visual-words tries to obtain a global fixed-length vector representation of every image. It is a method inspired by the Bag-of-Words model used in Natural Language Processing, which is a popular framework for text classification.
-\todo{5. Add citation to paper explaining Bag of Words in NLP}
+Bag-of-Visual-words tries to obtain a global fixed-length vector representation of every image. It is a method inspired by the Bag-of-Words model used in Natural Language Processing, which is a popular framework for text classification \cite{article}.
 
 The main idea is that a document can be described by a histogram vector representing the number of appearances of a word in a document. So, for instance, documents with many appearances of words such as vision, eye, camera, etc ... can later be potentially categorized into Computer Vision text. The main problem it faces is the design of the vocabulary that contains all the words taken into account.
 
@@ -98,8 +97,7 @@ Another variant of this method is to split the images into some parts, and apply
 
 Given the small amount of data available for training, it may be necessary to consider the option to do some dimensionality reduction of the feature space, in order to help the system regularize better.
 
-During this project, in the BOvW framework, the features to build the vocabulary are the ones computed using the DenseSIFT, or the version of it which is called in this project PyramidSIFT in which features of different parts of the image are computed independently to be combined into a global image representation. \todo{8. Cite something about DenseSIFT}. Two different dimensionality reduction techniques have been tested, Principal Component Analysis (PCA) and Linear Discriminant Analysis (LDA).
-\todo{9. Cite some work related to these PCA dnd LDA}
+During this project, in the BOvW framework, the features to build the vocabulary are the ones computed using the DenseSIFT, or the version of it which is called in this project PyramidSIFT in which features of different parts of the image are computed independently to be combined into a global image representation. Two different dimensionality reduction techniques have been tested, Principal Component Analysis (PCA) and Linear Discriminant Analysis (LDA) \cite{6920716}.
 
 \subsection{K-Nearest Neighbors}
 
@@ -153,7 +151,7 @@ Those LAMBDA parameters \todo{14. change lambda by the symbol} different than 0,
 The prime problem described in \todo{15. reference prime Lagrangian equation} can be written in the dual form:
 \todo{16. Put here dual form}
 
-To solve the dual form, train samples are projected into another space defined by the projection function FUNC(X) \todo{17. change this FUNC(X)}. But for the solution of the optimization problem, it is not needed to find the exact transformation function, it is enough to know the value of the scalar product in that new space. This is known as the Kernel trick. \todo{18. Cite some paper about the Kernel trick, or SVMs in general}
+To solve the dual form, train samples are projected into another space defined by the projection function FUNC(X) \todo{17. change this FUNC(X)}. But for the solution of the optimization problem, it is not needed to find the exact transformation function, it is enough to know the value of the scalar product in that new space. This is known as the Kernel trick \cite{10.1109/5254.708428}. 
 
 SVM is tested as a solution to solve the proposed problem. The main challenge to make it work is to find the best Kernel function and to tweak the regularization parameter C, that allows for some flexibility to have some training samples between the dividing hyper-planes.
 
@@ -233,11 +231,11 @@ The results of these comparisons is \ref{MLPResults}
 
 Transfer learning is a technique focused on using knowledge gained while solving a machine learning problem and recycle this knowledge to solve a different problem.
 
-With Deep Learning, the most common technique is to use an already trained network that has been generally trained on the ImageNet data-set \todo{23. reference or cite about ImageNet}(that has millions of images that are classified into around 1000 classes), remove the last layers that are responsible for the combination of the learnt features for classification and put a set of layers that is adapted to the new problem statement.
+With Deep Learning, the most common technique is to use an already trained network that has been generally trained on the ImageNet data-set \cite{imagenet_cvpr09} (that has millions of images that are classified into around 1000 classes), remove the last layers that are responsible for the combination of the learnt features for classification and put a set of layers that is adapted to the new problem statement.
 
 
-This document uses the NASNet network \todo{24. cite paper}. It is an architecture found through Neural Architecture Search, a machine learning approach used to automatically design networks that turn out to be on par or even outperform hand-designed architectures.
-The network used is NASNetMob, a smaller version of NasNet designed to be used by mobile devices which contains very few parameters compared to its parent (around 5 million parameters). It only uses Convolutional layers \todo{25. cite paper} and Batch-Normalization layers \todo{26. cite paper}, while the head or classification layers are reduced to a Global Average Pooling \todo{27. cite paper} and Dense layers.
+This document uses the NASNet network \cite{DBLP:journals/corr/ZophVSL17}. It is an architecture found through Neural Architecture Search, a machine learning approach used to automatically design networks that turn out to be on par or even outperform hand-designed architectures.
+The network used is NASNetMob, a smaller version of NasNet designed to be used by mobile devices which contains very few parameters compared to its parent (around 5 million parameters). It only uses Convolutional layers \cite{0483bd9444a348c8b59d54a190839ec9} and Batch-Normalization layers \cite{10.5555/3045118.3045167}, while the head or classification layers are reduced to a Global Average Pooling and Dense layers.
 
 \begin{figure}[ht!]
   \centering
@@ -253,7 +251,7 @@ First, the head layers are analyzed. It consists of a Global Average Pooling lay
   \caption{The last layers have been changed}
 \end{figure}
 
-For this task, a limitation to use only 400 images of the training set is added. The best way to overcome this limitation is the use of Data Augmentation techniques \todo{28. Cite something about Data Augmentation}.
+For this task, a limitation to use only 400 images of the training set is added. The best way to overcome this limitation is the use of Data Augmentation techniques \cite{Shorten2019ASO}
 
 Data Augmentation is a technique that is used to create synthetic images based on the real images that it gets in input. It is defined by a set of transformations to be applied to the training images, such as horizontal or vertical flips, shifting, rotation or zooming.
 
